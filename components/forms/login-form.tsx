@@ -26,6 +26,7 @@ import { signInUser } from "@/server/users"
 import { LoaderIcon, SplinePointer } from "lucide-react"
 import { toast } from "sonner"
 import { authClient } from "@/lib/auth-client"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   email: z.email(),
@@ -36,8 +37,10 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,6 +55,12 @@ export function LoginForm({
       const response = await signInUser(values.email, values.password);
       form.reset();
       toast(response.message)
+      
+      if (response.success) {
+        router.push("/dashboard")
+      } else {
+        alert("Chud Gaye Guru")
+      }
     } catch (error) {
       console.error(error);
       toast(error?.message)
@@ -67,6 +76,7 @@ export function LoginForm({
         provider: "google",
       });
       toast(response?.message || "User signed in successfully");
+      router.push("/dashboard")
     } catch (error) {
       console.error(error);
       toast(error?.message)
