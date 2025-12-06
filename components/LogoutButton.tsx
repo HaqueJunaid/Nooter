@@ -14,7 +14,7 @@ const LogoutButton = () => {
         setIsLoading(true);
         await authClient.signOut();
         setIsLoading(false);
-        toast("User logout successfully.");
+        toast.success("User logout successfully.");
         router.push("/");
     }
 

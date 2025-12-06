@@ -54,16 +54,14 @@ export function LoginForm({
       setIsLoading(true)
       const response = await signInUser(values.email, values.password);
       form.reset();
-      toast(response.message)
+      toast.success(response.message)
       
       if (response.success) {
         router.push("/dashboard")
-      } else {
-        alert("Chud Gaye Guru")
       }
     } catch (error) {
       console.error(error);
-      toast(error?.message)
+      toast.error(error?.message)
     } finally {
       setIsLoading(false);
     }
@@ -75,11 +73,11 @@ export function LoginForm({
       const response = await authClient.signIn.social({
         provider: "google",
       });
-      toast(response?.message || "User signed in successfully");
+      toast.success(response?.message || "User signed in successfully");
       router.push("/dashboard")
     } catch (error) {
       console.error(error);
-      toast(error?.message)
+      toast.error(error?.message)
     } finally {
       setIsGoogleLoading(false);
     }

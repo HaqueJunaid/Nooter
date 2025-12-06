@@ -23,7 +23,7 @@ import {
 import Link from "next/link"
 import { useState } from "react"
 import { signUpUser } from "@/server/users"
-import { LoaderIcon, SplinePointer } from "lucide-react"
+import { LoaderIcon } from "lucide-react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { authClient } from "@/lib/auth-client"
@@ -56,16 +56,14 @@ export function SignUpForm({
       setIsLoading(true);
       const response = await signUpUser(values.name, values.email, values.password);
       form.reset();
-      toast("Check email to verify your account.");
+      toast.success("Check email to verify your account.");
 
       if (response.success) {
         router.push("/login");
-      } else {
-        alert("Chud gaye guru")
       }
     } catch (error) {
       console.error(error);
-      toast(error?.message)
+      toast.error(error?.message)
     } finally {
       setIsLoading(false);
     }
@@ -77,11 +75,11 @@ export function SignUpForm({
       const response = await authClient.signIn.social({
         provider: "google",
       });
-      toast(response?.message || "User signed up successfully");
+      toast.success(response?.message || "User signed up successfully");
       router.push("/dashboard")
     } catch (error) {
       console.error(error);
-      toast(error?.message)
+      toast.error(error?.message)
     } finally {
       setIsGoogleLoading(false);
     }
