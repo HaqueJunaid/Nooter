@@ -48,10 +48,10 @@ export function ForgotForm({
       setIsLoading(true)
       const {error} = await authClient.requestPasswordReset({email: values.email, redirectTo: "/reset-password"});
       
-      if (error) {
+      if (!error) {
         toast.success("Varification email send successfully.")
       } else {
-        toast.error("Failed to send verification email.")
+        toast.error("Failed to send email. Try again.")
       }
     } catch (error) {
       console.error(error);

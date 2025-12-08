@@ -1,10 +1,11 @@
-import LogoutButton from "@/components/LogoutButton"
+
+import { PageWrapper } from "@/components/page-wrapper"
 
 const Dashboard = () => {
     return (
-    <div>
-      <LogoutButton />
-    </div>
+    <PageWrapper breadcrums={[{label: "dashboard", href: "/dashboard"}, {label: "home", href: "/"}]}>
+      Dashboard
+    </PageWrapper>
   )
 }
 

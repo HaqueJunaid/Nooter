@@ -19,7 +19,7 @@ const LogoutButton = () => {
     }
 
   return (
-    <Button onClick={handleLogout} disabled={isLoading}>
+    <Button variant={"outline"} onClick={handleLogout} disabled={isLoading}>
         {!isLoading ? <LogOutIcon /> : <LoaderIcon className="animate-spin" /> }
         {!isLoading && "Logout"}
     </Button>
