@@ -1,6 +1,12 @@
 import { SignUpForm } from "@/components/forms/sign-up-form"
 import { Notebook } from "lucide-react"
+import { Metadata } from "next";
 import Link from "next/link"
+
+export const metadata: Metadata  = {
+  title: "Nooter | Signup",
+  description: "Create your account",
+};
 
 export default function SignUp() {
   return (

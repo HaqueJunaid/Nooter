@@ -1,6 +1,11 @@
 import { Notebook } from "lucide-react"
-
 import { LoginForm } from "@/components/forms/login-form"
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Nooter | Login",
+  description: "Login to your account",
+};
 
 export default function LoginPage() {
   return (
