@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from "@/db/drizzle";
-import { InsertNotebook, notebooks } from "@/db/note-schema";
+import { InsertNotebook, notebooks, notes } from "@/db/note-schema";
 import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
@@ -34,20 +34,28 @@ export const getNotebooks = async () => {
         if (!userId)
             return {success: false, message: "User not found"};
 
-        const allNotebooks = await db
+        const rows = await db
             .select()
             .from(notebooks)
+            .leftJoin(notes, eq(notes.notebookId, notebooks.id))
             .where(eq(notebooks.userId, userId));
-        console.log("Notes: " + allNotebooks)
-        return {success: true, allNotebooks};
+
+        return {success: true, data: rows};
     } catch (error) {
+        console.error("getNotebooks:error: ", error);
         return {success: false, message: "Failed to get notebooks"};
     }
 }
 
 export const getNotebooksById = async (id: string) => {
     try {
-        const notebook = await db.select().from(notebooks).where(eq(notebooks.id, id));
+        // @ts-ignore
+        const notebook = await db.query.notebooks.findFirst({
+            where: eq(notebooks.id, id),
+            with: {
+                notes: true,
+            }
+        });
         return {success: true, notebook};
     } catch(error) {
         return {success: false, message: "Failed to get notebook"};

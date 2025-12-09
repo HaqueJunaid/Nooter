@@ -1,3 +1,4 @@
+import React from "react"
 import Link from "next/link"
 import {
     Breadcrumb,
@@ -8,6 +9,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { SidebarTrigger } from "./ui/sidebar"
 import LogoutButton from "./LogoutButton"
+import { ModeToggle } from "./ui/themeToggleButton"
 
 
 interface PageWrapperProps {
@@ -28,20 +30,23 @@ export function PageWrapper({ children, breadcrums }: PageWrapperProps) {
                             <SidebarTrigger />
                             <Breadcrumb>
                                 <BreadcrumbList>
-                                    {breadcrums.map((breadcrumb) => (
-                                        <BreadcrumbItem key={breadcrumb.label}>
-                                            <BreadcrumbLink asChild>
-                                                <Link href={breadcrumb.href}>
-                                                    {breadcrumb.label}
-                                                </Link>
-                                            </BreadcrumbLink>
-                                            <BreadcrumbSeparator />
-                                        </BreadcrumbItem>
+                                    {breadcrums.map((breadcrumb, idx) => (
+                                        <React.Fragment key={breadcrumb.label}>
+                                            <BreadcrumbItem>
+                                                <BreadcrumbLink asChild>
+                                                    <Link href={breadcrumb.href}>
+                                                        {breadcrumb.label}
+                                                    </Link>
+                                                </BreadcrumbLink>
+                                            </BreadcrumbItem>
+                                            {idx < breadcrums.length - 1 && <BreadcrumbSeparator />}
+                                        </React.Fragment>
                                     ))}
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </div>
-                        <div>
+                        <div className="flex items-center gap-4">
+                            <ModeToggle />
                             <LogoutButton />
                         </div>
                     </div>

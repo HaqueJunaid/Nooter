@@ -11,7 +11,7 @@ export const notebooks = pgTable("notebooks", {
 })
 
 export type Noteboook = typeof notebooks.$inferSelect;
-export type InsertNotebook = typeof notebooks.$inferSelect;
+export type InsertNotebook = typeof notebooks.$inferInsert;
 
 export const notes = pgTable("notes", {
     id: text('id').primaryKey().default(sql`gen_random_uuid()`),
@@ -23,6 +23,7 @@ export const notes = pgTable("notes", {
 })
 
 export type Note = typeof notes.$inferSelect;
+export type InsertNote = typeof notes.$inferInsert;
 
 export const notebookRelations = relations(notebooks, ({ many, one }) => ({
     notes: many(notes),

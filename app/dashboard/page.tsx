@@ -7,16 +7,36 @@ const Dashboard = async () => {
     const response = await getNotebooks();
     console.log(response);
 
+    const rows = (response as any)?.data ?? [];
+
+    // Group notes by notebook id from the flat join rows
+    const notebooksMap = new Map<string, { id: string; name: string; notes: any[] }>();
+    rows.forEach((row: any) => {
+        const notebook = row?.notebooks;
+        const note = row?.notes;
+        if (!notebook) return;
+
+        if (!notebooksMap.has(notebook.id)) {
+            notebooksMap.set(notebook.id, { id: notebook.id, name: notebook.name, notes: [] });
+        }
+
+        if (note) {
+            notebooksMap.get(notebook.id)!.notes.push(note);
+        }
+    });
+
+    const notebooks = Array.from(notebooksMap.values());
+
     return (
-    <PageWrapper breadcrums={[{label: "dashboard", href: "/dashboard"}, {label: "home", href: "/"}]}>
+    <PageWrapper breadcrums={[{label: "dashboard", href: "/dashboard"}]}>
       <h1>Notebooks</h1>
 
       <CreateNotebookButton />
 
-      {response.success && response?.allNotebooks?.map((notebook) => (
+      {response.success && notebooks.map((notebook) => (
         <div key={notebook.id}>{notebook.name}</div>
       ))}
-      {response.success && response?.allNotebooks?.length === 0 && (
+      {response.success && notebooks.length === 0 && (
         <div>No notebook found</div>
       )}
 
