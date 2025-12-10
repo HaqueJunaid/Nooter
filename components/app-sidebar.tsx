@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/sidebar"
 import { getNotebooks } from "@/server/notebooks"
 import Link from "next/link"
+import CreateNotebookButton from "./create-notebook"
 
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -63,12 +64,15 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-          <Link href="/" className="flex items-center gap-2 pl-3 mb-2">
+        <div className="flex flex-col pl-[9.5px] pr-[9.5px] mt-2 mb-2.5 gap-5">
+        <Link href="/" className="flex items-center gap-2">
             <div className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-md">
               <Notebook className="size-4" />
             </div>
             <span className='text-xl font-bold leading-none'>Nooter</span>
           </Link>
+          <CreateNotebookButton />
+        </div>
         <SearchForm />
       </SidebarHeader>
       <SidebarContent className="gap-0">
@@ -80,10 +84,10 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
             defaultOpen
             className="group/collapsible"
           >
-            <SidebarGroup>
+            <SidebarGroup className="-mb-1">
               <SidebarGroupLabel
                 asChild
-                className="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm"
+                className="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-md"
               >
                 <CollapsibleTrigger>
                   {item.title}{" "}

@@ -1,5 +1,4 @@
 import CreateNotebookButton from "@/components/create-notebook";
-import Notebooks from "@/components/Notebooks"
 import { PageWrapper } from "@/components/page-wrapper"
 import { getNotebooks } from "@/server/notebooks"
 
@@ -29,13 +28,7 @@ const Dashboard = async () => {
 
     return (
     <PageWrapper breadcrums={[{label: "dashboard", href: "/dashboard"}]}>
-      <h1>Notebooks</h1>
 
-      <CreateNotebookButton />
-
-      {response.success && notebooks.map((notebook) => (
-        <div key={notebook.id}>{notebook.name}</div>
-      ))}
       {response.success && notebooks.length === 0 && (
         <div>No notebook found</div>
       )}

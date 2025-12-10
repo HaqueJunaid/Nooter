@@ -25,7 +25,7 @@ import { createNotebook } from "@/server/notebooks"
 import { toast } from "sonner"
 import { authClient } from "@/lib/auth-client"
 import { useState } from "react"
-import { LoaderIcon } from "lucide-react"
+import { LoaderIcon, PlusIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 
@@ -77,7 +77,7 @@ const CreateNotebookButton = () => {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline">Create Notebook</Button>
+                <Button variant="default"><PlusIcon /> Create Notebook</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
