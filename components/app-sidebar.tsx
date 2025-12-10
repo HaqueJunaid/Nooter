@@ -26,7 +26,6 @@ import CreateNotebookButton from "./create-notebook"
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const response = await getNotebooks();
-  console.log("Response: ", response);
 
   const rows = (response as any)?.data ?? []
 
@@ -99,7 +98,7 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
                   <SidebarMenu>
                     {item.items.map((item) => (
                       <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild isActive={item.isActive}>
+                        <SidebarMenuButton asChild>
                           <a href={item.url}>{item.title}</a>
                         </SidebarMenuButton>
                       </SidebarMenuItem>

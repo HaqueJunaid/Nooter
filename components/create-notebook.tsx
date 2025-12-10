@@ -67,8 +67,8 @@ const CreateNotebookButton = () => {
             setIsOpen(false);
             router.refresh();
         } catch (error) {
-            console.error(error);
-            toast.error(error?.message);
+            const err = error as Error
+            toast.error(err?.message);
         } finally {
             setIsLoading(false);
         }

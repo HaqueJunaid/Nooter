@@ -54,8 +54,8 @@ export function ForgotForm({
         toast.error("Failed to send email. Try again.")
       }
     } catch (error) {
-      console.error(error);
-      toast.error(error?.message)
+      const err = error as Error;
+      toast.error(err?.message)
     } finally {
       setIsLoading(false);
     }

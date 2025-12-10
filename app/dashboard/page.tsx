@@ -4,7 +4,6 @@ import { getNotebooks } from "@/server/notebooks"
 
 const Dashboard = async () => {
     const response = await getNotebooks();
-    console.log(response);
 
     const rows = (response as any)?.data ?? [];
 

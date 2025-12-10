@@ -67,7 +67,8 @@ export function ResetPasswordForm({
                 router.push("/login");
             }
         } catch (error) {
-            toast.error(error.message);
+            const err = error as Error;
+            toast.error(err?.message);
         } finally {
             setIsLoading(false);
         }

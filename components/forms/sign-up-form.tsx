@@ -62,8 +62,8 @@ export function SignUpForm({
         router.push("/login");
       }
     } catch (error) {
-      console.error(error);
-      toast.error(error?.message)
+      const err = error as Error
+      toast.error(err?.message)
     } finally {
       setIsLoading(false);
     }
@@ -75,11 +75,17 @@ export function SignUpForm({
       const response = await authClient.signIn.social({
         provider: "google",
       });
-      toast.success(response?.message || "User signed up successfully");
+
+      if (response.error) {
+        toast.error(response.error.message)
+        return;
+      }
+
+      toast.success("User signed up successfully");
       router.push("/dashboard")
     } catch (error) {
-      console.error(error);
-      toast.error(error?.message)
+      const err = error as Error;
+      toast.error(err?.message)
     } finally {
       setIsGoogleLoading(false);
     }

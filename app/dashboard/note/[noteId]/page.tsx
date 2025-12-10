@@ -7,8 +7,22 @@ type Params = Promise<{
 
 const page = async ({ params }: { params: Params }) => {
     const { noteId } = await params;
-    const { note } = await getNotesById(noteId);
-    let data = note[0];
+    const response = await getNotesById(noteId);
+
+    if (!response.success || !response.note || response.note.length === 0) {
+        return (
+            <PageWrapper
+                breadcrums={[
+                    { label: "dashboard", href: "/dashboard" },
+                    { label: "Note not found", href: `/dashboard/note/${noteId}` },
+                ]}
+            >
+                Note not found
+            </PageWrapper>
+        )
+    }
+
+    const data = response.note[0];
     return (
         <PageWrapper
             breadcrums={[

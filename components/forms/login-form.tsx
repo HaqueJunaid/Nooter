@@ -60,8 +60,8 @@ export function LoginForm({
         router.push("/dashboard")
       }
     } catch (error) {
-      console.error(error);
-      toast.error(error?.message)
+      const err = error as Error;
+      toast.error(err?.message)
     } finally {
       setIsLoading(false);
     }
@@ -73,11 +73,17 @@ export function LoginForm({
       const response = await authClient.signIn.social({
         provider: "google",
       });
-      toast.success(response?.message || "User signed in successfully");
+
+      if (response.error) {
+        toast.error(response.error.message)
+        return;
+      }
+
+      toast.success("User signed in successfully");
       router.push("/dashboard")
     } catch (error) {
-      console.error(error);
-      toast.error(error?.message)
+      const err = error as Error
+      toast.error(err?.message)
     } finally {
       setIsGoogleLoading(false);
     }
