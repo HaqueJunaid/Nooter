@@ -17,7 +17,7 @@ const transitionVariants = {
             filter: 'blur(0px)',
             y: 0,
             transition: {
-                type: "spring",
+                
                 bounce: 0.3,
                 duration: 1.5,
             },
@@ -71,7 +71,7 @@ export default function HeroSection() {
                                         },
                                         ...transitionVariants,
                                     }}
-                                    className="mt-12 flex items-center gap-2">
+                                    classNamee="mt-12 flex items-center gap-2">
                                     <div
                                         key={1}
                                         className="bg-foreground/10 rounded-[calc(var(--radius-xl)+0.125rem)] border p-0.5">
