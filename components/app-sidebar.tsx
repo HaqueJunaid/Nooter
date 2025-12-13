@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ChevronRight, Notebook } from "lucide-react"
+import { ChevronRight, FileIcon, Notebook } from "lucide-react"
 
 import { SearchForm } from "@/components/search-form"
 import {
@@ -21,43 +21,23 @@ import {
 } from "@/components/ui/sidebar"
 import { getNotebooks } from "@/server/notebooks"
 import Link from "next/link"
-import CreateNotebookButton from "./create-notebook"
 
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const response = await getNotebooks();
 
-  const rows = (response as any)?.data ?? []
-
-  const notebooksMap = new Map<
-    string,
-    { title: string; url: string; items: { title: string; url: string }[] }
-  >()
-
-  rows.forEach((row: any) => {
-    const notebook = row.notebooks
-    const note = row.notes
-    if (!notebook) return
-
-    if (!notebooksMap.has(notebook.id)) {
-      notebooksMap.set(notebook.id, {
-        title: notebook.name,
-        url: `/dashboard/${notebook.id}`,
-        items: [],
-      })
-    }
-
-    if (note) {
-      notebooksMap.get(notebook.id)!.items.push({
-        title: note.title,
-        url: `/dashboard/note/${note.id}`,
-      })
-    }
-  })
-
   const data = {
     versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-    navMain: Array.from(notebooksMap.values()),
+    navMain: [
+      ...response?.allNotebooks?.map((notebook) => ({
+        title: notebook.name,
+        url: `/notebook/${notebook.id}`,
+        items: notebook.notes.map((note) => ({
+          title: note.title,
+          url: `/dashboard/note/${note.id}`,
+        })) || [],
+      })) ?? [],
+    ],
   }
 
   return (
@@ -70,12 +50,10 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
             </div>
             <span className='text-xl font-bold leading-none'>Nooter</span>
           </Link>
-          <CreateNotebookButton />
         </div>
         <SearchForm />
       </SidebarHeader>
       <SidebarContent className="gap-0">
-        {/* We create a collapsible SidebarGroup for each parent. */}
         {data.navMain.map((item) => (
           <Collapsible
             key={item.title}
@@ -99,7 +77,7 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
                     {item.items.map((item) => (
                       <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton asChild>
-                          <a href={item.url}>{item.title}</a>
+                          <a href={item.url}> <FileIcon /> {item.title}</a>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))}

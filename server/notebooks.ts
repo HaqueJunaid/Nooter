@@ -34,16 +34,17 @@ export const getNotebooks = async () => {
         if (!userId)
             return {success: false, message: "User not found"};
 
-        const rows = await db
-            .select()
-            .from(notebooks)
-            .leftJoin(notes, eq(notes.notebookId, notebooks.id))
-            .where(eq(notebooks.userId, userId));
+        const allNotebooks = await db.query.notebooks.findMany({
+            where: eq(notebooks.userId, userId),
+            with: {
+                notes: true,
+            }
+        });
 
-        return {success: true, data: rows};
+        return {success: true, allNotebooks };
     } catch (error) {
         console.error("getNotebooks:error: ", error);
-        return {success: false, message: "Failed to get notebooks"};
+        return {success: false, message: "Failed to get notebooks", error: String(error)};
     }
 }
 
