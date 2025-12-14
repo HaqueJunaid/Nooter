@@ -50,7 +50,7 @@ export const getNotebooks = async () => {
 
 export const getNotebooksById = async (id: string) => {
     try {
-        // @ts-ignore
+        console.log("Inside server action")
         const notebook = await db.query.notebooks.findFirst({
             where: eq(notebooks.id, id),
             with: {

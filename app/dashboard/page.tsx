@@ -1,36 +1,34 @@
 import CreateNotebookButton from "@/components/create-notebook";
 import { PageWrapper } from "@/components/page-wrapper"
 import { getNotebooks } from "@/server/notebooks"
+import NotebookCard from "@/components/notebook-card";
 
 const Dashboard = async () => {
-    const response = await getNotebooks();
+  const { success, allNotebooks } = await getNotebooks();
 
-    const rows = (response as any)?.data ?? [];
-
-    // Group notes by notebook id from the flat join rows
-    const notebooksMap = new Map<string, { id: string; name: string; notes: any[] }>();
-    rows.forEach((row: any) => {
-        const notebook = row?.notebooks;
-        const note = row?.notes;
-        if (!notebook) return;
-
-        if (!notebooksMap.has(notebook.id)) {
-            notebooksMap.set(notebook.id, { id: notebook.id, name: notebook.name, notes: [] });
-        }
-
-        if (note) {
-            notebooksMap.get(notebook.id)!.notes.push(note);
-        }
-    });
-
-    const notebooks = Array.from(notebooksMap.values());
-
+  if (!success || allNotebooks?.length === 0) {
     return (
-    <PageWrapper breadcrums={[{label: "dashboard", href: "/dashboard"}]}>
+      <PageWrapper breadcrums={[{ label: "dashboard", href: "/dashboard" }]}>
+        <div className="flex flex-col gap-4 items-center justify-center">
+          <h2 className="text-2xl font-semibold">No Notebooks Found</h2>
+          <CreateNotebookButton />
+        </div>
+      </PageWrapper>
+    )
+  }
 
-      {response.success && notebooks.length === 0 && (
-        <div>No notebook found</div>
-      )}
+  return (
+    <PageWrapper breadcrums={[{ label: "dashboard", href: "/dashboard" }]}>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">All Notebooks</h1>
+        <CreateNotebookButton />
+      </div>
+
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        {allNotebooks?.map((notebook) => (
+          <NotebookCard notebook={notebook} key={notebook.id} />
+        ))}
+      </div>
 
     </PageWrapper>
   )
