@@ -9,7 +9,6 @@ type Params = Promise<{
 const page = async ({ params }: { params: Params }) => {
     const { noteId } = await params;
     const response = await getNotesById(noteId);
-    console.log("response", response.note);
 
     if (!response.success || !response.note || response.note.length === 0) {
         return (
@@ -31,7 +30,9 @@ const page = async ({ params }: { params: Params }) => {
             { label: "dashboard", href: "/dashboard" },
             { label: data.title, href: `/dashboard/note/${data.id}` }]}>
             {data.title}
-            <RichTextEditor noteId={noteId} content={response?.note[0]?.content as String} />
+            <div className="max-w-7xl">
+            <RichTextEditor noteId={noteId} content={data.content || []} />
+            </div>
         </PageWrapper>
     )
 }
