@@ -58,7 +58,6 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
           <Collapsible
             key={item.title}
             title={item.title}
-            defaultOpen
             className="group/collapsible"
           >
             <SidebarGroup className="-mb-1">

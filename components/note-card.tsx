@@ -35,7 +35,7 @@ interface NotebookCardProps {
     notebookId: string
 }
 
-const NoteCard = ({ note }: NotebookCardProps) => {
+const NoteCard = ({ note, notebookId }: NotebookCardProps) => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -63,7 +63,7 @@ const NoteCard = ({ note }: NotebookCardProps) => {
             <CardContent>
             </CardContent>
             <CardFooter className="flex-row gap-2 justify-end">
-                <Link href={`/dashboard/notebook/${note.id}`}>
+                <Link href={`/dashboard/notebook/${notebookId}/note/${note.id}`}>
                     <Button variant={"outline"} className="flex gap-2 items-center justify-center" disabled={isLoading}>
                     Edit
                     <Edit className="size-4" />

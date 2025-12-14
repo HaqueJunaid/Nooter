@@ -16,7 +16,7 @@ export type InsertNotebook = typeof notebooks.$inferInsert;
 export const notes = pgTable("notes", {
     id: text('id').primaryKey().default(sql`gen_random_uuid()`),
     title: text('title').notNull(),
-    content: jsonb('content').notNull(),
+    content: jsonb('content'),
     notebookId: text('notebook_id').notNull().references(() => notebooks.id, {onDelete: 'cascade'}),
     createdAt: timestamp('created_at').$defaultFn(() => new Date()),
     updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
