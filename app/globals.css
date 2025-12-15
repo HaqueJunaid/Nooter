@@ -120,3 +120,22 @@
     @apply bg-background text-foreground;
   }
 }
+@layer base {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(144, 144, 144, 0.832) transparent;
+  }
+  html::-webkit-scrollbar {
+    width: 8px;
+  }
+  html::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+  html::-webkit-scrollbar-thumb {
+    background: var(--ring);
+    border-radius: 4px;
+  }
+  html::-webkit-scrollbar-thumb:hover {
+    background: var(--foreground);
+  }
+}

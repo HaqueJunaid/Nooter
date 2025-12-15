@@ -3,13 +3,12 @@
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
-import { ArrowRightIcon, Edit, LoaderIcon, Trash } from "lucide-react";
+import { Edit, LoaderIcon, Trash } from "lucide-react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -22,10 +21,10 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useState } from "react";
-import { deleteNotebookById } from "@/server/notebooks";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation"
 import Link from 'next/link';
+import { deleteNoteById } from "@/server/notes";
 
 interface NotebookCardProps {
     note: {
@@ -42,8 +41,8 @@ const NoteCard = ({ note, notebookId }: NotebookCardProps) => {
     const handleClick = async () => {
         try {
             setIsLoading(true);
-            await deleteNotebookById(note.id);
-            toast.success("Notebook deleted successfully");
+            let {message} = await deleteNoteById(note.id);
+            toast.success(message);
             router.refresh();
         } catch {
             toast.error("Failed to delete notebook");
@@ -53,12 +52,9 @@ const NoteCard = ({ note, notebookId }: NotebookCardProps) => {
     }
 
     return (
-        <Card className="max-w-[25rem] dark:hover:border-neutral-600 hover:border-neutral-600 duration-300 ease-in-out cursor-pointer">
+        <Card className="max-w-100 dark:hover:border-neutral-600 hover:border-neutral-600 duration-300 ease-in-out cursor-pointer">
             <CardHeader>
                 <CardTitle>{note.title}</CardTitle>
-                {/* <CardDescription>
-                    No of notes: {JSON.stringify(note.length)}
-                </CardDescription> */}
             </CardHeader>
             <CardContent>
             </CardContent>

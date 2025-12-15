@@ -274,34 +274,32 @@ interface RichTextEditorProps {
 }
 
 export default ({ content, noteId }: RichTextEditorProps) => {
-  const [debounceTimer, setDebounceTimer] = React.useState<NodeJS.Timeout | null>(null)
+  const debounceTimerRef = React.useRef<NodeJS.Timeout | null>(null)
 
   const editor = useEditor({
     immediatelyRender: false,
     extensions,
     onUpdate: ({ editor }) => {
-      if (debounceTimer) clearTimeout(debounceTimer)
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
 
-      const timer = setTimeout(() => {
+      debounceTimerRef.current = setTimeout(() => {
         updateNote(noteId, { content: editor.getJSON() })
-      }, 500)
-
-      setDebounceTimer(timer)
+      }, 1000)
     },
     content,
   })
 
   React.useEffect(() => {
     return () => {
-      if (debounceTimer) clearTimeout(debounceTimer)
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
     }
-  }, [debounceTimer])
+  }, [])
 
   return (
     <div>
       {editor && <MenuBar editor={editor} />}
       <div className="rich-text-editor border rounded-md p-4 mt-2">
-        <EditorContent editor={editor} className='min-h-[300px]' />
+        <EditorContent editor={editor} className='max-h-[500px] overflow-y-scroll' />
       </div>
     </div>
   )
