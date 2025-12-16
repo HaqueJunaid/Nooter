@@ -1,0 +1,317 @@
+.editor-wrapper {
+  min-height: 100vh;
+  padding: 2rem;
+  transition: background-color 0.3s ease;
+}
+
+.editor-wrapper.dark {
+  background-color: #0a0a0a;
+}
+
+.editor-wrapper.light {
+  background-color: #ffffff;
+}
+
+.editor-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.dark .editor-container {
+  background-color: #1a1a1a;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.light .editor-container {
+  background-color: #f8f9fa;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.editor-menubar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid;
+}
+
+.dark .editor-menubar {
+  background-color: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.light .editor-menubar {
+  background-color: #ffffff;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.editor-menubar .separator {
+  width: 1px;
+  height: 20px;
+  margin: 0 2px;
+}
+
+.dark .editor-menubar .separator {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.light .editor-menubar .separator {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.editor-button {
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.dark .editor-button {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.dark .editor-button:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dark .editor-button[data-state="on"] {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.dark .editor-button:disabled {
+  opacity: 0.3;
+}
+
+.light .editor-button {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.light .editor-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.light .editor-button[data-state="on"] {
+  background-color: rgba(0, 0, 0, 0.08);
+  color: #000000;
+}
+
+.light .editor-button:disabled {
+  opacity: 0.3;
+}
+
+.editor-content {
+  padding: 3rem 4rem;
+  min-height: 500px;
+}
+
+.dark .editor-content {
+  background-color: #1a1a1a;
+}
+
+.light .editor-content {
+  background-color: #f8f9fa;
+}
+
+.tiptap {
+  outline: none;
+}
+
+.tiptap:focus {
+  outline: none;
+}
+
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  line-height: 1.3;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.tiptap h1 {
+  font-size: 2rem;
+}
+
+.dark .tiptap h1,
+.dark .tiptap h2 {
+  color: #ffffff;
+}
+
+.light .tiptap h1,
+.light .tiptap h2 {
+  color: #1a1a1a;
+}
+
+.tiptap h2 {
+  font-size: 1.5rem;
+}
+
+.tiptap h3 {
+  font-size: 1.25rem;
+}
+
+.tiptap p {
+  margin: 1rem 0;
+  line-height: 1.6;
+}
+
+.dark .tiptap p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.light .tiptap p {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.tiptap code {
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: "Geist Mono", monospace;
+}
+
+.dark .tiptap code {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+}
+
+.light .tiptap code {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #f57c00;
+}
+
+.tiptap pre {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: "Geist Mono", monospace;
+}
+
+.dark .tiptap pre {
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.light .tiptap pre {
+  background-color: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.tiptap pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.9rem;
+}
+
+.dark .tiptap pre code {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.light .tiptap pre code {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.tiptap ul,
+.tiptap ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.tiptap ul li,
+.tiptap ol li {
+  margin: 0.25rem 0;
+}
+
+.dark .tiptap ul li,
+.dark .tiptap ol li {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.light .tiptap ul li,
+.light .tiptap ol li {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.tiptap ul li p,
+.tiptap ol li p {
+  margin: 0.25rem 0;
+}
+
+.tiptap ul {
+  list-style-type: disc;
+}
+
+.tiptap ol {
+  list-style-type: decimal;
+}
+
+.tiptap blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid;
+  font-style: italic;
+}
+
+.dark .tiptap blockquote {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.light .tiptap blockquote {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.dark .tiptap blockquote p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.light .tiptap blockquote p {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.tiptap a {
+  text-decoration: underline;
+}
+
+.dark .tiptap a {
+  color: #7c9bff;
+}
+
+.light .tiptap a {
+  color: #5468ff;
+}
+
+.tiptap strong {
+  font-weight: 600;
+}
+
+.dark .tiptap strong {
+  color: #ffffff;
+}
+
+.light .tiptap strong {
+  color: #000000;
+}
+
+.tiptap em {
+  font-style: italic;
+}
+
+.tiptap s {
+  text-decoration: line-through;
+}
+
+.tiptap u {
+  text-decoration: underline;
+}

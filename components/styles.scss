@@ -1,104 +1,289 @@
-*:focus {
-  outline: none;
+.editor-container {
+  max-width: 2000px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.tiptap {
-  :first-child {
-    margin-top: 0;
+.editor-menubar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid;
+  
+  .dark & {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.08);
   }
 
-  /* List styles */
-  ul {
-    padding: 0 1rem;
-    margin: 1.25rem 1rem 1.25rem 0.4rem;
-    list-style-type: disc;
+  .light & {
+    background-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
 
-    li p {
-      margin-top: 0.25em;
-      margin-bottom: 0.25em;
+  .separator {
+    width: 1px;
+    height: 20px;
+    margin: 0 2px;
+    
+    .dark & {
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+    
+    .light & {
+      background-color: rgba(0, 0, 0, 0.08);
     }
   }
-  ol {
-    padding: 0 1rem;
-    margin: 1.25rem 1rem 1.25rem 0.4rem;
-    list-style-type: decimal;
+}
 
-    li p {
-      margin-top: 0.25em;
-      margin-bottom: 0.25em;
+.editor-button {
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  
+  .dark & {
+    color: rgba(255, 255, 255, 0.7);
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    &[data-state="on"] {
+      background-color: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+
+    &:disabled {
+      opacity: 0.3;
     }
   }
 
-  /* Heading styles */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
-    margin-top: 2.5rem;
-    text-wrap: pretty;
+  .light & {
+    color: rgba(0, 0, 0, 0.6);
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+      color: rgba(0, 0, 0, 0.9);
+    }
+
+    &[data-state="on"] {
+      background-color: rgba(0, 0, 0, 0.08);
+      color: #000000;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+    }
+  }
+}
+
+.editor-content {
+  padding: 3rem 4rem;
+  min-height: 500px;
+
+  .dark & {
+    background-color: #1a1a1a;
   }
 
-  h1,
-  h2 {
-    margin-top: 3.5rem;
-    margin-bottom: 1.5rem;
+  .light & {
+    background-color: #f8f9fa;
   }
 
-  h1 {
-    font-size: 1.4rem;
-  }
+  .tiptap {
+    outline: none;
 
-  h2 {
-    font-size: 1.2rem;
-  }
+    &:focus {
+      outline: none;
+    }
 
-  h3 {
-    font-size: 1.1rem;
-  }
+    h1, h2, h3, h4, h5, h6 {
+      line-height: 1.3;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
 
-  h4,
-  h5,
-  h6 {
-    font-size: 1rem;
-  }
+    h1 {
+      font-size: 2rem;
+      
+      .dark & {
+        color: #ffffff;
+      }
+      
+      .light & {
+        color: #1a1a1a;
+      }
+    }
 
-  /* Code and preformatted text styles */
-  code {
-    background-color: var(--purple-light);
-    border-radius: 0.4rem;
-    color: var(--black);
-    font-size: 0.85rem;
-    padding: 0.25em 0.3em;
-  }
+    h2 {
+      font-size: 1.5rem;
+      
+      .dark & {
+        color: #ffffff;
+      }
+      
+      .light & {
+        color: #1a1a1a;
+      }
+    }
 
-  pre {
-    background: var(--black);
-    border-radius: 0.5rem;
-    color: var(--white);
-    font-family: "JetBrainsMono", monospace;
-    margin: 1.5rem 0;
-    padding: 0.75rem 1rem;
+    h3 {
+      font-size: 1.25rem;
+    }
+
+    p {
+      margin: 1rem 0;
+      line-height: 1.6;
+      
+      .dark & {
+        color: rgba(255, 255, 255, 0.85);
+      }
+      
+      .light & {
+        color: rgba(0, 0, 0, 0.8);
+      }
+    }
 
     code {
-      background: none;
-      color: inherit;
-      font-size: 0.8rem;
-      padding: 0;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9em;
+      font-family: 'Geist Mono', monospace;
+      
+      .dark & {
+        background-color: rgba(255, 193, 7, 0.2);
+        color: #ffc107;
+      }
+      
+      .light & {
+        background-color: rgba(255, 193, 7, 0.15);
+        color: #f57c00;
+      }
     }
-  }
 
-  blockquote {
-    border-left: 3px solid rgba(187, 187, 187, 0.653);
-    margin: 1.5rem 0;
-    padding-left: 1rem;             
-  }
+    pre {
+      margin: 1.5rem 0;
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Geist Mono', monospace;
+      
+      .dark & {
+        background-color: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      
+      .light & {
+        background-color: rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
 
-  hr {
-    border: none;
-    border-top: 1px solid var(--gray-2);
-    margin: 2rem 0;
+      code {
+        background: none;
+        padding: 0;
+        border-radius: 0;
+        font-size: 0.9rem;
+        
+        .dark & {
+          color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .light & {
+          color: rgba(0, 0, 0, 0.8);
+        }
+      }
+    }
+
+    ul, ol {
+      padding-left: 1.5rem;
+      margin: 1rem 0;
+
+      li {
+        margin: 0.25rem 0;
+        
+        .dark & {
+          color: rgba(255, 255, 255, 0.85);
+        }
+        
+        .light & {
+          color: rgba(0, 0, 0, 0.8);
+        }
+
+        p {
+          margin: 0.25rem 0;
+        }
+      }
+    }
+
+    ul {
+      list-style-type: disc;
+    }
+
+    ol {
+      list-style-type: decimal;
+    }
+
+    blockquote {
+      margin: 1.5rem 0;
+      padding-left: 1rem;
+      border-left: 3px solid;
+      
+      .dark & {
+        border-color: rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.7);
+      }
+      
+      .light & {
+        border-color: rgba(0, 0, 0, 0.2);
+        color: rgba(0, 0, 0, 0.6);
+      }
+
+      p {
+        .dark & {
+          color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .light & {
+          color: rgba(0, 0, 0, 0.6);
+        }
+      }
+    }
+
+    a {
+      text-decoration: underline;
+      
+      .dark & {
+        color: #7c9bff;
+      }
+      
+      .light & {
+        color: #5468ff;
+      }
+    }
+
+    strong {
+      font-weight: 600;
+      
+      .dark & {
+        color: #ffffff;
+      }
+      
+      .light & {
+        color: #000000;
+      }
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    s {
+      text-decoration: line-through;
+    }
+
+    u {
+      text-decoration: underline;
+    }
   }
 }

@@ -36,7 +36,7 @@ const Note = async ({ params }: { params: Params }) => {
             >
             {data.title}
             <div className="max-w-7xl">
-            <RichTextEditor noteId={noteId} content={data.content || []} />
+            <RichTextEditor content={data.content || {}} />
             </div>
         </PageWrapper>
     )
