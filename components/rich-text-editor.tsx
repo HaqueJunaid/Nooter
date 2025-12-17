@@ -6,7 +6,6 @@ import { TextStyleKit } from "@tiptap/extension-text-style"
 import type { Editor, JSONContent } from "@tiptap/react"
 import { EditorContent, useEditor, useEditorState } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import React from "react"
 import { Toggle } from "@/components/ui/toggle"
 import {
   BoldIcon,
@@ -27,20 +26,33 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
-  AlignJustify,
-  Subscript,
-  Superscript,
+  Subscript as SubsctiptIcon,
+  Superscript as SuperscriptIcon,
+  SubscriptIcon,
+  Highlighter,
 } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip"
 import { BulletList, OrderedList } from "@tiptap/extension-list"
 import Blockquote from "@tiptap/extension-blockquote"
 import Underline from "@tiptap/extension-underline"
+import TextAlign from '@tiptap/extension-text-align'
+import Subscript from '@tiptap/extension-subscript'
+import Superscript from '@tiptap/extension-superscript'
+import { updateNote } from '@/server/notes'
+import Highlight from '@tiptap/extension-highlight'
+import { useEffect, useRef } from 'react'
 
-const extensions = [TextStyleKit, StarterKit, BulletList, OrderedList, Blockquote, Underline]
+const extensions = [TextStyleKit, StarterKit, BulletList, OrderedList, Blockquote, Underline, Subscript, Superscript, TextAlign.configure({
+  types: ['heading', 'paragraph'],
+  }),
+  Highlight.configure({
+    multicolor: true
+  })
+]
 
 function MenuBar({
   editor,
-}: { editor: Editor}) {
+}: { editor: Editor }) {
   const editorState = useEditorState({
     editor,
     selector: (ctx) => {
@@ -62,6 +74,12 @@ function MenuBar({
         isOrderedList: ctx.editor.isActive("orderedList") ?? false,
         isCodeBlock: ctx.editor.isActive("codeBlock") ?? false,
         isBlockquote: ctx.editor.isActive("blockquote") ?? false,
+        isHighlight: ctx.editor.isActive("highlight") ?? false,
+        isSuperscript: ctx.editor.isActive("superscript") ?? false,
+        isSubscript: ctx.editor.isActive("subscript") ?? false,
+        isTextLeft: ctx.editor.isActive("textAlign", { align: "left" }) ?? false,
+        isTextCenter: ctx.editor.isActive("textAlign", { align: "center" }) ?? false,
+        isTextRight: ctx.editor.isActive("textAlign", { align: "right" }) ?? false,
         canUndo: ctx.editor.can().chain().undo().run() ?? false,
         canRedo: ctx.editor.can().chain().redo().run() ?? false,
       }
@@ -290,23 +308,33 @@ function MenuBar({
               <p>Underline</p>
             </TooltipContent>
           </Tooltip>
-
-          <div className="separator" />
-
+          
           <Tooltip>
             <TooltipTrigger asChild>
-              <Toggle size="sm" className="editor-button">
-                <LinkIcon className="size-4" />
+              <Toggle
+                size="sm"
+                onClick={() => editor.chain().focus().toggleHighlight().run()}
+                pressed={editorState.isHighlight}
+                className="editor-button"
+              >
+                <Highlighter className="size-4" />
               </Toggle>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Link</p>
+              <p>Highlight</p>
             </TooltipContent>
           </Tooltip>
 
+          <div className="separator" />
+
+          {/* Yet to add the feature */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <Toggle size="sm" className="editor-button">
+              <Toggle size="sm"
+                onClick={() => {
+                  // TODO: Implement image upload feature
+                }}
+                className="editor-button">
                 <ImageIcon className="size-4" />
               </Toggle>
             </TooltipTrigger>
@@ -319,8 +347,11 @@ function MenuBar({
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Toggle size="sm" className="editor-button">
-                <Superscript className="size-4" />
+              <Toggle size="sm"
+                onClick={() => editor.chain().focus().toggleSuperscript().run()}
+                pressed={editorState.isSuperscript}
+                className="editor-button">
+                <SuperscriptIcon className="size-4" />
               </Toggle>
             </TooltipTrigger>
             <TooltipContent>
@@ -330,8 +361,11 @@ function MenuBar({
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Toggle size="sm" className="editor-button">
-                <Subscript className="size-4" />
+              <Toggle size="sm"
+                onClick={() => editor.chain().focus().toggleSubscript().run()}
+                pressed={editorState.isSubscript}
+                className="editor-button">
+                <SubscriptIcon className="size-4" />
               </Toggle>
             </TooltipTrigger>
             <TooltipContent>
@@ -343,7 +377,10 @@ function MenuBar({
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Toggle size="sm" className="editor-button">
+              <Toggle size="sm"
+                onClick={() => editor.chain().focus().toggleTextAlign('left').run()}
+                pressed={editorState.isTextLeft}
+                className="editor-button">
                 <AlignLeft className="size-4" />
               </Toggle>
             </TooltipTrigger>
@@ -354,7 +391,10 @@ function MenuBar({
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Toggle size="sm" className="editor-button">
+              <Toggle size="sm"
+                onClick={() => editor.chain().focus().toggleTextAlign('center').run()}
+                pressed={editorState.isTextCenter}
+                className="editor-button">
                 <AlignCenter className="size-4" />
               </Toggle>
             </TooltipTrigger>
@@ -365,7 +405,10 @@ function MenuBar({
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Toggle size="sm" className="editor-button">
+              <Toggle size="sm"
+                onClick={() => editor.chain().focus().toggleTextAlign('right').run()}
+                pressed={editorState.isTextRight}
+                className="editor-button">
                 <AlignRight className="size-4" />
               </Toggle>
             </TooltipTrigger>
@@ -374,30 +417,7 @@ function MenuBar({
             </TooltipContent>
           </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Toggle size="sm" className="editor-button">
-                <AlignJustify className="size-4" />
-              </Toggle>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Align Justify</p>
-            </TooltipContent>
-          </Tooltip>
-
           <div className="separator" />
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Toggle size="sm" className="editor-button">
-                <ImageIcon className="size-4" />
-                <span className="text-sm">Add</span>
-              </Toggle>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Add</p>
-            </TooltipContent>
-          </Tooltip>
         </div>
       </div>
     </TooltipProvider>
@@ -405,97 +425,38 @@ function MenuBar({
 }
 
 interface RichTextEditorProps {
-  content?: JSONContent
+  content?: JSONContent,
+  noteId: string
 }
 
-export default function RichTextEditor({ content }: RichTextEditorProps) {
-  const [theme, setTheme] = React.useState<"light" | "dark">("dark")
+export default function RichTextEditor({ content, noteId }: RichTextEditorProps) {
+  const debounceTimeRef = useRef<NodeJS.Timeout | null>(null);
 
   const editor = useEditor({
     immediatelyRender: false,
     extensions,
-    content: content || {
-      type: "doc",
-      content: [
-        {
-          type: "heading",
-          attrs: { level: 1 },
-          content: [{ type: "text", text: "Getting started" }],
-        },
-        {
-          type: "paragraph",
-          content: [
-            { type: "text", text: "Welcome to the " },
-            { type: "text", text: "Simple Editor", marks: [{ type: "code" }] },
-            { type: "text", text: " template! This template integrates " },
-            { type: "text", text: "open source", marks: [{ type: "bold" }] },
-            { type: "text", text: " UI components and Tiptap extensions licensed under " },
-            { type: "text", text: "MIT", marks: [{ type: "bold" }] },
-            { type: "text", text: "." },
-          ],
-        },
-        {
-          type: "paragraph",
-          content: [
-            { type: "text", text: "Integrate it by following the " },
-            { type: "text", text: "Tiptap UI Components docs" },
-            { type: "text", text: " or using our " },
-            { type: "text", text: "CLI" },
-            { type: "text", text: " tool." },
-          ],
-        },
-        {
-          type: "codeBlock",
-          content: [{ type: "text", text: "npx @tiptap/cli init" }],
-        },
-        {
-          type: "heading",
-          attrs: { level: 2 },
-          content: [{ type: "text", text: "Features" }],
-        },
-        {
-          type: "blockquote",
-          content: [
-            {
-              type: "paragraph",
-              content: [
-                {
-                  type: "text",
-                  text: "A fully responsive rich text editor with built-in support for common formatting and layout tools. Type markdown ",
-                  marks: [{ type: "italic" }],
-                },
-                { type: "text", text: "**", marks: [{ type: "italic" }] },
-                { type: "text", text: " or use keyboard shortcuts ", marks: [{ type: "italic" }] },
-                { type: "text", text: "⌘+B", marks: [{ type: "italic" }] },
-                { type: "text", text: " for ", marks: [{ type: "italic" }] },
-                { type: "text", text: "most", marks: [{ type: "strike" }] },
-                { type: "text", text: " all common markdown marks. ✅", marks: [{ type: "italic" }] },
-              ],
-            },
-          ],
-        },
-        {
-          type: "paragraph",
-          content: [
-            { type: "text", text: "Add images, customize alignment, and apply " },
-            { type: "text", text: "advanced formatting" },
-            { type: "text", text: " to make your writing more engaging and professional." },
-          ],
-        },
-      ],
+    onUpdate: ({editor}) => {
+      if (debounceTimeRef.current) clearTimeout(debounceTimeRef.current);
+
+      debounceTimeRef.current = setTimeout(() => {
+        updateNote(noteId, {content: editor.getJSON()});
+      }, 500)
     },
+    content
   })
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"))
-  }
+  useEffect(() => {
+    return () => {
+      if (debounceTimeRef.current) clearTimeout(debounceTimeRef.current)
+    }
+  }, [])
 
   return (
-      <div className="editor-container">
-        {editor && <MenuBar editor={editor}/>}
-        <div className="editor-content">
-          <EditorContent editor={editor} className='overflow-y-scroll max-h-[600px]' />
-        </div>
+    <div className="editor-container">
+      {editor && <MenuBar editor={editor} />}
+      <div className="editor-content">
+        <EditorContent editor={editor} className='overflow-y-scroll max-h-[600px]' />
       </div>
+    </div>
   )
 }
