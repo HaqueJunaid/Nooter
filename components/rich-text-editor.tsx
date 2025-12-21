@@ -452,10 +452,10 @@ export default function RichTextEditor({ content, noteId }: RichTextEditorProps)
   }, [])
 
   return (
-    <div className="editor-container">
+    <div className="">
       {editor && <MenuBar editor={editor} />}
-      <div className="editor-content">
-        <EditorContent editor={editor} className='overflow-y-scroll max-h-[600px]' />
+      <div className="editor-content border-l border-r border-b bg-transparent!">
+        <EditorContent editor={editor} className='overflow-y-auto max-h-[600px]' />
       </div>
     </div>
   )
