@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRightIcon, Trash } from "lucide-react";
 import NoteCard from "@/components/note-card";
 import CreateNoteButton from "@/components/create-note";
+import { twMerge } from "tailwind-merge";
 
 type Params = Promise<{
     notebookId: string;
@@ -47,7 +48,8 @@ const Notebook = async ({ params }: { params: Params }) => {
                 <CreateNoteButton notebookId={notebookId} />
             </div>
 
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-3">
+            <div className={twMerge("relative mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-3", `${notebook.notes.length === 0 && "min-h-[70vh]"}`)}>
+                {notebook.notes.length === 0 && <h1 className="absolute left-1/2 top-1/2 -translate-1/2 border-2 text-nowrap rounded-md px-6 py-3 text-lg uppercase font-bold">No notes found</h1>}
                 {notebook?.notes?.map((note) => (
                     <NoteCard note={note} notebookId={notebookId} key={note.id} />
                 ))}
