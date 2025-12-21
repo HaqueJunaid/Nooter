@@ -1,6 +1,7 @@
 import { ResetPasswordForm } from "@/components/forms/reset-password-form"
 import { Notebook } from "lucide-react"
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata  = {
   title: "Nooter | Reset password",
@@ -17,7 +18,9 @@ export default function ForgotPassword() {
           </div>
           Nooter
         </a>
-        <ResetPasswordForm />
+        <Suspense fallback={<div>Loading...</div>}>
+          <ResetPasswordForm />
+        </Suspense>
       </div>
     </div>
   )

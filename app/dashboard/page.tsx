@@ -3,6 +3,8 @@ import { PageWrapper } from "@/components/page-wrapper"
 import { getNotebooks } from "@/server/notebooks"
 import NotebookCard from "@/components/notebook-card";
 
+export const dynamic = 'force-dynamic';
+
 const Dashboard = async () => {
   const { success, allNotebooks } = await getNotebooks();
 
