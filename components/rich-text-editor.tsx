@@ -89,7 +89,7 @@ function MenuBar({
   return (
     <TooltipProvider>
       <div className="editor-menubar">
-        <div className="flex items-center gap-1">
+        <div className="flex flex-wrap w-full items-center gap-1">
           <Tooltip>
             <TooltipTrigger asChild>
               <Toggle
@@ -452,10 +452,10 @@ export default function RichTextEditor({ content, noteId }: RichTextEditorProps)
   }, [])
 
   return (
-    <div className="">
+    <div>
       {editor && <MenuBar editor={editor} />}
-      <div className="editor-content border-l border-r border-b bg-transparent!">
-        <EditorContent editor={editor} className='overflow-y-auto max-h-[600px]' />
+      <div className="editor-content pl-5! pr-5! pt-0! pb-0! border-l border-r border-b bg-transparent!">
+        <EditorContent editor={editor} className='overflow-y-auto max-h-[60vh]! lg:max-h-[2500px]!' />
       </div>
     </div>
   )

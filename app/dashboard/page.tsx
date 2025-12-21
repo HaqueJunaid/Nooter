@@ -11,7 +11,7 @@ const Dashboard = async () => {
   if (!success || allNotebooks?.length === 0) {
     return (
       <PageWrapper breadcrums={[{ label: "dashboard", href: "/dashboard" }]}>
-        <div className="flex flex-col gap-4 items-center justify-center">
+        <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between md:items-center">
           <h2 className="text-2xl font-semibold">No Notebooks Found</h2>
           <CreateNotebookButton />
         </div>
@@ -21,7 +21,7 @@ const Dashboard = async () => {
 
   return (
     <PageWrapper breadcrums={[{ label: "dashboard", href: "/dashboard" }]}>
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between md:items-center">
         <h1 className="text-2xl font-bold">All Notebooks</h1>
         <CreateNotebookButton />
       </div>

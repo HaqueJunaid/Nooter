@@ -34,7 +34,7 @@ const Note = async ({ params }: { params: Params }) => {
             { label: notebook?.name || "notebook", href: `/dashboard/notebook/${data.notebookId}` },
             { label: data.title, href: `/dashboard/notebook/${data.notebookId}/note/${data.id}` }]}
             >
-            {data.title}
+            <h1 className="text-xl font-bold">{data.title}</h1>
             <div className="max-w-7xl">
             <RichTextEditor content={data.content || {}} noteId={noteId} />
             </div>
